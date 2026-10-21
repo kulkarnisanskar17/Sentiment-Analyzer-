@@ -1,0 +1,5 @@
+model,run,test_accuracy,embedding_dim,embedding_params,non_embedding_params,total_params,inference_sec_159719_tweets,epochs_until_early_stop
+BiLSTM,1,0.8246,200,10000000,61761,10061761,1.2,4
+BiGRU,1,0.8241,100,5000000,48769,5048769,1.2,3
+BiLSTM,2,0.8236,200,10000000,61761,10061761,1.2,4
+BiGRU,2,0.8261,100,5000000,48769,5048769,1.2,4

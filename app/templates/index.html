@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BiGRU Sentiment Analyzer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="badge-pill">BiGRU Sentiment Analyzer</h1>
+            <p class="subtitle">Real-time sentiment inference powered by a tuned Bidirectional GRU model trained on 1.6M tweets.</p>
+        </header>
+
+        <!-- Main Card -->
+        <main class="main-card">
+            <!-- Input Form -->
+            <form id="sentiment-form" class="sentiment-form">
+                <div class="input-header">
+                    <label for="tweet-input">Enter a Comment or Sentence</label>
+                    <span id="char-counter" class="char-counter">0 / 280</span>
+                </div>
+                
+                <div class="textarea-wrapper">
+                    <textarea 
+                        id="tweet-input" 
+                        name="text" 
+                        placeholder="e.g. Absolutely loved the new updates! Everything is smooth and fast. 🚀" 
+                        rows="4"
+                        maxlength="280"
+                        required
+                    ></textarea>
+                </div>
+
+                <!-- Example Pills -->
+                <div class="sample-pills-section">
+                    <span class="sample-label">Try quick samples:</span>
+                    <div class="pill-group">
+                        <button type="button" class="sample-btn positive-sample" data-text="This is fantastic! Loved every single minute of it! ❤️">Positive 😄</button>
+                        <button type="button" class="sample-btn negative-sample" data-text="Worst flight delay ever. Stranded for 6 hours with no updates. 😡">Negative 🙁</button>
+                    </div>
+                </div>
+
+                <!-- Form Controls -->
+                <div class="form-actions">
+                    <button type="button" id="clear-btn" class="btn btn-secondary">Clear</button>
+                    <button type="submit" id="submit-btn" class="btn btn-primary">
+                        <span class="btn-text">Analyze Sentiment</span>
+                        <span class="spinner" id="spinner"></span>
+                    </button>
+                </div>
+            </form>
+
+            <!-- Error Banner -->
+            <div id="error-alert" class="alert-box error hidden">
+                <span class="alert-icon">⚠️</span>
+                <span id="error-message" class="alert-text"></span>
+            </div>
+
+            <!-- Result Section -->
+            <section id="result-section" class="result-section hidden">
+                <div class="result-divider"></div>
+                <div class="result-header">
+                    <h3>Analysis Result</h3>
+                    <div id="sentiment-badge" class="sentiment-badge">--</div>
+                </div>
+
+                <!-- Score / Gauge display -->
+                <div class="scores-grid">
+                    <div class="score-card">
+                        <div class="score-label">Predicted Class</div>
+                        <div id="result-sentiment-text" class="score-value">--</div>
+                    </div>
+                    <div class="score-card">
+                        <div class="score-label">Confidence</div>
+                        <div id="result-confidence-text" class="score-value">--</div>
+                    </div>
+                    <div class="score-card">
+                        <div class="score-label">Raw Probability</div>
+                        <div id="result-prob-text" class="score-value mono">--</div>
+                    </div>
+                </div>
+
+                <!-- Probability Bar -->
+                <div class="distribution-wrapper">
+                    <div class="distribution-labels">
+                        <span class="neg-label">Negative: <strong id="neg-pct">50%</strong></span>
+                        <span class="pos-label">Positive: <strong id="pos-pct">50%</strong></span>
+                    </div>
+                    <div class="distribution-bar">
+                        <div id="neg-bar" class="bar-segment neg" style="width: 50%;"></div>
+                        <div id="pos-bar" class="bar-segment pos" style="width: 50%;"></div>
+                    </div>
+                </div>
+
+                <!-- Pipeline & Tokens Breakdown -->
+                <details class="pipeline-details">
+                    <summary>View Preprocessing & Tokens</summary>
+                    <div class="pipeline-content">
+                        <div class="pipeline-item">
+                            <span class="pipeline-title">Preprocessed String:</span>
+                            <code id="cleaned-text-display">--</code>
+                        </div>
+                        <div class="pipeline-item">
+                            <span class="pipeline-title">Recognized Vocabulary Tokens:</span>
+                            <div id="token-tags" class="token-tags-container"></div>
+                        </div>
+                    </div>
+                </details>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Built with <strong>Flask</strong>, <strong>TensorFlow / Keras</strong> &bull; BiGRU Architecture (5M params, 28 token cutoff)</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
