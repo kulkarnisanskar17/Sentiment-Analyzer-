@@ -52,7 +52,13 @@ Best configurations found: **[TODO: paste the final hyperparameters for each mod
 
 Precision, recall and F1 are all about 0.82–0.83 for both classes, so neither label is favored by either model. Validation and test accuracy agree closely (about 82.4%), which indicates that no leakage has occurred.
 
-![Training curves](results/curves)
+### Training & Validation Curves
+
+#### Run 1
+![Run 1 Curves](results/curves/RUN1.png)
+
+#### Run 2
+![Run 2 Curves](results/curves/RUN2.png)
 
 ## Key findings
 
@@ -94,7 +100,9 @@ SA pro/
 │   ├── bigru.keras
 │   └── tokenizer.pkl
 ├── results/
-│   ├── curves.png
+│   ├── curves/
+│   │   ├── RUN1.png
+│   │   └── RUN2.png
 │   └── metrics.csv
 ├── requirements.txt
 └── README.md
