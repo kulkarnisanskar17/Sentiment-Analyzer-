@@ -1,4 +1,4 @@
-# Tweet Sentiment Analysis: BiLSTM vs BiGRU
+# Sentiment Analysis: BiLSTM vs BiGRU
 
 Binary sentiment classification is performed on the Sentiment140 dataset (1.6M tweets). A tuned bidirectional LSTM is compared against a tuned bidirectional GRU, and a small web app is provided for live predictions.
 
@@ -35,7 +35,25 @@ Two architectures are used, and each is tuned independently with Keras Tuner (Hy
 - `SpatialDropout1D` is added after the embedding in the final models, and early stopping on validation loss (`restore_best_weights=True`) is used during training
 - Tuning is performed on the validation set only. The test set is used for final evaluation.
 
-Best configurations found: **[TODO: paste the final hyperparameters for each model]**
+Best configurations found: 
+| Component / Hyperparameter | Tuned BiLSTM | Tuned BiGRU |
+| :--- | :--- | :--- |
+| **Max Sequence Length (`maxlen`)** | 28 tokens | 28 tokens |
+| **Vocabulary Size** | 50,000 words | 50,000 words |
+| **Embedding Dimension** | 200 | 100 |
+| **Spatial Dropout 1D** | 0.3 | 0.3 |
+| **Recurrent Architecture** | Bidirectional LSTM | Bidirectional GRU |
+| **Recurrent Depth (Layers)** | 1 layer | 2 layers (stacked) |
+| **Layer 1 Recurrent Units** | 32 forward + 32 backward (64 total) | 32 forward + 32 backward (64 total, `return_sequences=True`) |
+| **Layer 1 Dropout** | 0.3 | 0.2 |
+| **Layer 2 Recurrent Units** | — | 32 forward + 32 backward (64 total, `return_sequences=False`) |
+| **Layer 2 Dropout** | — | 0.2 |
+| **Intermediate Dense Units** | 32 (ReLU) | 64 (ReLU) |
+| **Dense Dropout** | 0.3 | 0.2 |
+| **Output Layer** | 1 unit (Sigmoid) | 1 unit (Sigmoid) |
+| **Optimizer** | Adam | Adam |
+| **Learning Rate** | 0.003 (`3e-3`) | 0.003 (`3e-3`) |
+| **Total Trainable Parameters** | 10,061,761 | 5,048,769 |
 
 ## Results
 
@@ -86,7 +104,7 @@ An interactive web application is provided to test live inference using the trai
 ## Project structure
 
 ```
-SA pro/
+Sentiment Analyzer Project/
 ├── notebooks/
 │   └── sentiment_analysis.ipynb
 ├── app/
